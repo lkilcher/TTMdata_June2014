@@ -1,0 +1,21 @@
+# Ignore data files for now, perhaps later they will be included in git-lfs?
+*.h5
+*.VEC
+*.vec
+*.csv
+*.mat
+*.hdr
+*.ssl
+*.pyc
+
+# Ignore the ADP data for now.
+ADP/
+
+# Ignore the decklog
+ADV/*decklog*
+
+photos/
+*#
+.#*
+
+.DS_store
