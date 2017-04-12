@@ -1,0 +1,59 @@
+============================================================
+Deployment   : J14P1
+Current time : 6/13/2014 3:15:37 PM
+Start at     : 6/16/2014 8:00:00 PM
+Comment:
+June 2014 multi-TTM deplyment. Polagye01 instrument for X-wing.
+------------------------------------------------------------
+Sampling rate        (Hz) : 32
+Nominal vel. range  (m/s) : 4.00
+Burst interval        (s) : CONTINUOUS
+Samples per burst         : N/A
+Sampling volume      (mm) : 14.9
+Transmit length      (mm) : 4.0
+Measurement load      (%) : 36
+Power level               : HIGH
+Output sync               : VECTOR
+Start on sync             : DISABLED
+Sample on sync            : DISABLED
+INS Sensor                : ENABLED
+INS Data type             : AHRSCC
+Compass upd. rate     (s) : 1
+Coordinate System         : XYZ
+Speed of sound      (m/s) : MEASURED
+Salinity            (ppt) : 35
+Analog output             : DISABLED
+Analog output range       : N/A
+Analog input 1            : NONE
+Analog input 2            : NONE
+Analog input power out    : DISABLED
+File wrapping             : OFF
+TellTale                  : OFF
+Acoustic modem            : OFF
+Serial output             : OFF
+Baud rate                 : 57600
+------------------------------------------------------------
+Assumed duration   (days) : 1.0
+Battery utilization   (%) : 62.0
+Battery level         (V) : 13.8
+Recorder size        (MB) : 15185
+Recorder free space  (MB) : 15184.972
+Memory required      (MB) : 292.3
+Vertical vel. range (m/s) : 1.5
+Horizon. vel. range (m/s) : 5.3
+------------------------------------------------------------
+Instrument ID             : VEC11093
+Head ID                   : VEC 4994
+Firmware version          : 3.38
+ProLog ID                 : 598
+ProLog firmware version   : 4.18
+------------------------------------------------------------
+SD Card Inserted          : YES
+SD Card Ready             : YES
+SD Card Write protected   : NO
+SD Card Type              : SDHC
+SD Card Supported         : YES
+------------------------------------------------------------
+Vector Version 1.37.02
+Copyright (C) Nortek AS
+============================================================
