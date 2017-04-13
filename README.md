@@ -3,41 +3,19 @@ June 2014 Admiralty Head TTM Dataset
 
 This is a repository of turbulence data measured at Admiralty
 Head, in Admiralty Inlet (Puget Sound) in June of 2014. The
-measurements were made using Inertial Motion Unit (IMU) equipped ADVs
-mounted on Tidal Turbulence Mooring's (TTMs).
+measurements were made using Inertial Motion Unit (IMU) equipped
+Acoustic Doppler Velocimeters (ADVs) mounted on Tidal Turbulence
+Mooring's (TTMs).
 
-The data is not actually contained within the repository due to large
-file sizes. Instead, the raw data is stored on
-the [MHK Data Repository](http://mhkdr.openei.org/), and this
-repository includes tools for downloading and processing
-the source data files. This is accomplished by doing the following:
+A TTM is a compliant mooring designed to position an ADV above the
+seafloor to make mid-depth turbulence measurements. The inertial
+measurements from the IMU are used in post-processing to remove
+mooring motion.
 
-1. First, open a command prompt and navigate to the ADV directory, e.g.:
-
-        cd <this repo>/ADV/
-
-2. Then execute the 'pull data' script that is located there. This
-   will download the source data files. It will take a while,
-   depending on the speed of your internet connection.
-
-        python pull_data.py
-
-3. Now execute the process data script. This will create a collection
-   of data files for each source data file. More information on each
-   data file format can be found in the 'data files' section, below.
-
-        python process_data.py
-
-Background
------------
-
-The TTM positions the ADV head above the seafloor to make mid-depth
-turbulence measurements. The inertial measurements from the IMU allows
-for removal of mooring motion in post processing.
-
-Each ttm was deployed with two ADVs. The 'top' ADV head was positioned
-0.5m above the 'bottom' ADV head. The TTMs were placed in 58 meters [m] of
-water and the ADVs were 10 m above the seafloor. The position of the TTMs were:
+In this dataset each TTM was deployed with two ADVs. The 'top' ADV
+head was positioned 0.5m above the 'bottom' ADV head. The TTMs were
+placed in 58 meters [m] of water and the ADVs were 10 m above the
+seafloor. The position of the TTMs were:
 
 - ttm01  : (48.1525, -122.6867)
 - ttm01b : (48.15256666, -122.68678333)
@@ -45,9 +23,42 @@ water and the ADVs were 10 m above the seafloor. The position of the TTMs were:
 
 Deployments TTM01b and TTM02b occurred simultaneously.
 
-For additional details on the data itself, see [Kilcher et.al. (2016)][Kilcher++2016].
+For additional details on the data itself, including diagrams and
+photos of the TTM, see [Kilcher et.al. (2016)][Kilcher++2016].
 
-Data Files
+'Installing' the data
+----------
+
+The data is not actually contained within the repository because the
+files are too large to be managed by `git`. Instead, the raw
+data is stored on
+the [MHK Data Repository](http://mhkdr.openei.org/), and this
+repository includes tools for downloading and processing the source
+data files stored there [[NREL 2015][ttmdata2015]]. This is
+accomplished by doing the following:
+
+1. First, open a command prompt and navigate to the ADV directory, e.g.:
+
+        cd <this repo>/ADV/
+
+2. Then execute the 'pull data' script that is located there. This
+   will download the collection of source data files (`*.vec`). It
+   will take a while, depending on the speed of your internet
+   connection.
+
+        python pull_data.py
+
+3. Now execute the 'process data' script. This will create a
+   collection of processed data files for each source data file. These
+   are the latest versions of the processed data files found in [the
+   dataset][ttmdata2015]. 
+
+        python process_data.py
+
+More information on the source and processed data file formats can be
+found in the following section.
+
+Data File Info
 ------
 
 There are multiple source files within this dataset, which is data
@@ -139,4 +150,13 @@ References
 
 Kilcher, L.; Thomson, J.; Talbert, J. and DeKlerk, A. (2016)
 "Measuring Turbulence from Moored Acoustic Doppler Velocimeters",
-National Renewable Energy Lab technical report [62979][Kilcher++2016].
+National Renewable Energy Lab, [NREL/TP-5000-62979][Kilcher++2016].
+
+[Kilcher++2016]: http://www.nrel.gov/docs/fy16osti/62979.pdf
+
+National Renewable Energy Laboratory. (2015). Admiralty Inlet Advanced
+Turbulence Measurements: June 2014 [data set]. Retrieved from
+[https://mhkdr.openei.org/submissions/50][ttmdata2015]. 
+https://dx.doi.org/10.15473/1245825 .
+
+[ttmdata2015]: https://mhkdr.openei.org/submissions/50
