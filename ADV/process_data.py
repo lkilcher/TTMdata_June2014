@@ -65,8 +65,6 @@ b2h_rotmat = {}
                                              [0, -1, 0],
                                              [-1, 0, 0]])]
 
-# binner = avm.TurbBinner(n_bin=10240, fs=32., n_fft=10240, n_fft_coh=2048)
-
 mc = avm.motion.CorrectMotion()
 
 if __name__ == '__main__':
