@@ -34,8 +34,16 @@ files are too large to be managed by `git`. Instead, the raw
 data is stored on
 the [MHK Data Repository](http://mhkdr.openei.org/), and this
 repository includes tools for downloading and processing the source
-data files stored there [[NREL 2015][ttmdata2015]]. This is
-accomplished by doing the following:
+data files stored there [[NREL 2015][ttmdata2015]].
+
+This package requires [Python 2.7](https://docs.python.org/2/), and
+the [DOLfYN](https://lkilcher.github.io/dolfyn/) package. Assuming you
+have a functioning and up-to-date version of the former installed, the
+latter can be installed by doing:
+
+    $ pip install dolfyn
+
+To download and process the data files:
 
 1. First, open a command prompt and navigate to the ADV directory, e.g.:
 
@@ -138,10 +146,12 @@ Example Usage
 -----------
 
 Once the data has been downloaded and processed, make sure this
-package is on the Python search path. Then, data can be loaded from it
-by simply doing:
+package is on the Python search path by adding it's *parent folder* to
+the
+[Python search path](https://docs.python.org/2/tutorial/modules.html). Then,
+data can be loaded from it by simply doing:
 
-    import June2014 as j14
+    import TTMdata_June2014 as j14
 
     dat = j14.load('TTM01-top', coordsys='earth')
 
