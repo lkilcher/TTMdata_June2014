@@ -5,7 +5,7 @@ import datetime
 import numpy as np
 
 read_raw = False
-#read_raw = True
+read_raw = True
 
 # The file names:
 fnames = {
@@ -102,27 +102,33 @@ if __name__ == '__main__':
             avm.clean.GN2002(dr.v)
             avm.clean.GN2002(dr.w)
             for nm, d in dr.iteritems():
-                if isinstance(d, np.ndarray) and d.dtype == np.float64 and nm not in ['mpltime']:
+                if isinstance(d, np.ndarray) and \
+                   d.dtype == np.float64 and nm not in ['mpltime']:
                     dr[nm] = d.astype(np.float32)
             if dr.has_imu():
-                dr.pitch, dr.roll, dr.heading = avm.rotate.orient2euler(dr.orientmat)
+                (dr.pitch,
+                 dr.roll,
+                 dr.heading) = avm.rotate.orient2euler(dr.orientmat)
             print('  Saving...')
             dr.save(fnm + '.h5',
-                    units={'vel': 'm/s', 'velrot': 'm/s', 'velacc': 'm/s', 'AngRt': 'rad/s',
-                           'Accel': 'm/s^2', 'AccelStable': 'm/s^2',
-                           'pitch': 'deg', 'roll': 'deg', 'heading': 'deg true',
-                           'mpltime': 'MatPlotLib Time format',
-                           'time': 'ISO8601 time strings.', },
-                    description={'vel': 'Velocity array 0:True East, 1: True North, 2: Up',
-                                 'velrot': 'The rotation-rate velocity.',
-                                 'velacc': 'The tranlational (acceleration) velocity.',
-                                 'AccelStable': 'The low-frequency acceleration '
-                                                'that is ignored in calculating velacc.',
-                                 'pitch': 'The pitch of the ADV body',
-                                 'roll': 'The roll of the ADV body',
-                                 'heading': 'The heading (True) of the ADV body',
-                                 'orientmat': "The orientation matrix of the"
-                                              " ADV body in the Earth's reference frame", })
+                    units={
+                        'vel': 'm/s', 'velrot': 'm/s',
+                        'velacc': 'm/s', 'AngRt': 'rad/s',
+                        'Accel': 'm/s^2', 'AccelStable': 'm/s^2',
+                        'pitch': 'deg', 'roll': 'deg', 'heading': 'deg true',
+                        'mpltime': 'MatPlotLib Time format',
+                        'time': 'ISO8601 time strings.', },
+                    description={
+                        'vel': 'Velocity array 0:True East, 1: True North, 2: Up',
+                        'velrot': 'The rotation-rate velocity.',
+                        'velacc': 'The tranlational (acceleration) velocity.',
+                        'AccelStable': 'The low-frequency acceleration '
+                        'that is ignored in calculating velacc.',
+                        'pitch': 'The pitch of the ADV body',
+                        'roll': 'The roll of the ADV body',
+                        'heading': 'The heading (True) of the ADV body',
+                        'orientmat': "The orientation matrix of the"
+                        " ADV body in the Earth's reference frame", })
         else:
             print('  Loading...')
             dr = avm.load(fnm + '.h5')
@@ -132,24 +138,29 @@ if __name__ == '__main__':
             print('  Motion correcting...')
             drm = dr.copy()
             mc(drm)
-            drm.pitch[:], drm.roll[:], drm.heading[:] = avm.rotate.orient2euler(drm.orientmat)
+            (drm.pitch[:],
+             drm.roll[:],
+             drm.heading[:]) = avm.rotate.orient2euler(drm.orientmat)
             print('  Saving...')
             drm.save(fnm + '_earth.h5',
-                     units={'vel': 'm/s', 'velrot': 'm/s', 'velacc': 'm/s', 'AngRt': 'rad/s',
-                            'Accel': 'm/s^2', 'AccelStable': 'm/s^2',
-                            'pitch': 'deg', 'roll': 'deg', 'heading': 'deg true',
-                            'mpltime': 'MatPlotLib Time format',
-                            'time': 'ISO8601 time strings.', },
-                     description={'vel': 'Velocity array 0:True East, 1: True North, 2: Up',
-                                  'velrot': 'The rotation-rate velocity.',
-                                  'velacc': 'The tranlational (acceleration) velocity.',
-                                  'AccelStable': 'The low-frequency acceleration that'
-                                                 ' is ignored in calculating velacc.',
-                                  'pitch': 'The pitch of the ADV body',
-                                  'roll': 'The roll of the ADV body',
-                                  'heading': 'The heading (True) of the ADV body',
-                                  'orientmat': "The orientation matrix of the ADV "
-                                               "body in the Earth's reference frame", }
+                     units={
+                         'vel': 'm/s', 'velrot': 'm/s',
+                         'velacc': 'm/s', 'AngRt': 'rad/s',
+                         'Accel': 'm/s^2', 'AccelStable': 'm/s^2',
+                         'pitch': 'deg', 'roll': 'deg', 'heading': 'deg true',
+                         'mpltime': 'MatPlotLib Time format',
+                         'time': 'ISO8601 time strings.', },
+                     description={
+                         'vel': 'Velocity array 0:True East, 1: True North, 2: Up',
+                         'velrot': 'The rotation-rate velocity.',
+                         'velacc': 'The tranlational (acceleration) velocity.',
+                         'AccelStable': 'The low-frequency acceleration that'
+                         ' is ignored in calculating velacc.',
+                         'pitch': 'The pitch of the ADV body',
+                         'roll': 'The roll of the ADV body',
+                         'heading': 'The heading (True) of the ADV body',
+                         'orientmat': "The orientation matrix of the ADV "
+                         "body in the Earth's reference frame", }
             )
 
         print('  Saving matlab file...')
@@ -176,10 +187,12 @@ if __name__ == '__main__':
 
         print("  Saving average...")
         np.savetxt(fnm + '_Average5min.csv',
-                   np.vstack((num2date(bdat.mpltime), bdat.u, bdat.v, bdat.w, ti)).T,
+                   np.vstack((num2date(bdat.mpltime), bdat.u,
+                              bdat.v, bdat.w, ti)).T,
                    fmt=['%s'] + ['%0.3f'] * 4,
-                   header='Date+Time (US/Pacific),'
-                   ' u (true east m/s), v (true north m/s), w (up m/s), Turbulence Intensity',
+                   header='Date+Time (US/Pacific), u (true east m/s), '
+                          'v (true north m/s), w (up m/s), '
+                          'Turbulence Intensity',
                    delimiter=', ')
 
         print("  Saving binned data to hdf5...")
