@@ -28,11 +28,12 @@ for ftag, fn in j14.files.iteritems():
 
     if flag.get('multi_spec01', False):
         print('  Creating Spec01...', end=' ')
-        fig, axs = pmod.multi_spec_plot(dat, 1100,
-                                        uranges=np.arange(0, 2.6, 0.5),
-                                        axsize=2,
-                                        noise_level=dict(Spec=[2e-4, 2e-4, 2e-5],
-                                                         Spec_uraw=[2e-4, 2e-4, 2e-5],))
+        fig, axs = pmod.multi_spec_plot(
+            dat, 1100,
+            uranges=np.arange(0, 2.6, 0.5),
+            axsize=2,
+            noise_level=dict(Spec=[2e-4, 2e-4, 2e-5],
+                             Spec_uraw=[2e-4, 2e-4, 2e-5],))
         ax = axs[0, 0]
         ax.set_xlim([1e-3, 10])
         ax.set_ylim([1e-5, 1])
