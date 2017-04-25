@@ -1,7 +1,6 @@
 import dolfyn.adv.api as avm
 from dolfyn.tools import within
-from dolfyn.data.time import date2num, num2date
-import datetime
+from dolfyn.data.time import num2date
 import numpy as np
 
 read_raw = False
@@ -17,17 +16,6 @@ fnames = {
     'ttm02b-top': 'ttm02b_ADVtop_NREL03_June2014',
 }
 
-# The time ranges that each TTM was on the seafloor:
-# These are calculated by inspection of the signal (e.g. u, v, w, Accel,
-# etc...) timeseries.
-time_range = {'ttm01': [date2num(datetime.datetime(2014, 6, 16, 21, 12, 0)),
-                        date2num(datetime.datetime(2014, 6, 17, 14, 42, 0)), ],
-              'ttm01b': [date2num(datetime.datetime(2014, 6, 18, 8, 0, 0)),
-                         date2num(datetime.datetime(2014, 6, 19, 5, 12, 0)), ],
-              'ttm02b': [date2num(datetime.datetime(2014, 6, 18, 8, 15, 0)),
-                         date2num(datetime.datetime(2014, 6, 19, 5, 0, 0)), ],
-              }
-
 # Some variables for calculating dissipation rate (\epsilon)
 eps_freqs = np.array([[.3, 1],
                       [.3, 1],
@@ -36,34 +24,6 @@ spec_noise = [1.5e-4,
               1.5e-4,
               1.5e-5, ]
 pii = 2 * np.pi
-
-# The lat/lon values
-latlons = {'ttm01b': (48.15256666, -122.68678333),
-           'ttm02b': (48.152783333, -122.686316666),
-           'ttm01': (48.1525, -122.6867),
-           }
-
-# The body-head vectors:
-m_in = 0.0254
-b2h_vec = {'ttm01-bot': np.array([-11.5, -0.25, -14.25]) * m_in,
-           'ttm01-top': np.array([0.254, -0.064, -0.165])
-           }
-b2h_vec['ttm01b-top'] = b2h_vec['ttm01-top']
-b2h_vec['ttm01b-bot'] = b2h_vec['ttm01-bot']
-b2h_vec['ttm02b-top'] = np.array([10., -2.5, -5]) * m_in  # in->m
-b2h_vec['ttm02b-bot'] = np.array([-13.25, 2.75, -12.75]) * m_in  # in->m
-
-# The rotation matrices
-b2h_rotmat = {}
-# They are all the same for the TTMs
-(b2h_rotmat['ttm01b-bot'],
- b2h_rotmat['ttm01-top'],
- b2h_rotmat['ttm01-bot'],
- b2h_rotmat['ttm02b-top'],
- b2h_rotmat['ttm02b-bot'],
- b2h_rotmat['ttm01b-top'],) = 6 * [np.array([[0, 0, -1],
-                                             [0, -1, 0],
-                                             [-1, 0, 0]])]
 
 mc = avm.motion.CorrectMotion()
 
@@ -76,17 +36,12 @@ if __name__ == '__main__':
             # Read the raw vector file
             dr = avm.read_nortek(source_name + '.vec')
 
-            # Assign some properties:
-            dr.props['body2head_rotmat'] = b2h_rotmat[tag]
-            if tag in b2h_vec.keys():
-                dr.props['body2head_vec'] = b2h_vec[tag]
             dr.noise[0] = 0
             dr.noise[1] = 0
             dr.noise[2] = 0
-            dr.props['latlon'] = latlons[tag.split('-')[0]]
 
             # Crop the data when the instrument was on the seafloor
-            dr = dr.subset(within(dr.mpltime, time_range[tag.split('-')[0]]))
+            dr = dr.subset(within(dr.mpltime, dr.props['time_range']))
 
             ##########
             print('  Cleaning the data...')
