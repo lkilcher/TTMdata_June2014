@@ -2,6 +2,7 @@ import dolfyn.adv.api as avm
 from dolfyn.tools import within
 from dolfyn.data.time import num2date
 import numpy as np
+from os.path import isfile
 
 # The file names:
 fnames = {
@@ -25,12 +26,27 @@ pii = 2 * np.pi
 mc = avm.motion.CorrectMotion()
 
 
-def run_all(fnames=fnames, read_raw=True, save_csv=True):
+def run(tags=fnames.keys(), read_raw=None, save_csv=False):
+    """
+    Process the ADV data.
 
-    for tag, fnm in fnames.iteritems():
+    Parameters
+    ----------
+    tags : iterable
+         A list of data tags that you want to process (default: all of
+         them).
+    read_raw : {True, None, False}
+         Whether to read the raw ``.vec`` file, or load the ``.h5``
+         file. Default: read .h5, if it is available.
+    save_csv : bool
+         Save the ``_average5min.csv`` files?
+    """
+    for tag in tags:
+        fnm = fnames[tag]
         print("File: {}".format(fnm))
-        if read_raw:
-            dr = read_raw(tag, fnm)
+        if read_raw is True or \
+           read_raw is None and not isfile(fnm + '.h5'):
+            dr = _read_raw(tag, fnm)
         else:
             dr = avm.load(fnm + '.h5')
 
@@ -59,7 +75,7 @@ def run_all(fnames=fnames, read_raw=True, save_csv=True):
         print("Done.")
 
 
-def read_raw(fname, tag):
+def _read_raw(fname, tag):
     # Read the raw vector file
     dr = avm.read_nortek(fname + '.vec')
 
@@ -232,4 +248,4 @@ def average(dat):
 
 if __name__ == '__main__':
 
-    run_all()
+    run()
