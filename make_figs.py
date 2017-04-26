@@ -1,13 +1,13 @@
 from __future__ import print_function
 # This script works with dolfyn version 0.3.6
-import ttm.base as pmod
+import plot_tools as pmod
 import matplotlib.pyplot as plt
 import numpy as np
 reload(pmod)
 plt.ion()
 import matplotlib.dates as dt
 from calendar import month_name as month
-import ttm.June2014 as j14
+import base as j14
 
 flag = {}
 flag['multi_spec01'] = True
