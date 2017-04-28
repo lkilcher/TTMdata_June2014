@@ -7,11 +7,11 @@ datdir = package_root + '/ADV/'
 
 # The file names:
 files = {
-    'ttm01-bottom': 'ttm01_ADVbottom_NREL01_June2014',
+    'ttm01-bot': 'ttm01_ADVbot_NREL01_June2014',
     'ttm01-top': 'ttm01_ADVtop_NREL02_June2014',
-    'ttm01b-bottom': 'ttm01b_ADVbottom_NREL01_June2014',
+    'ttm01b-bot': 'ttm01b_ADVbot_NREL01_June2014',
     'ttm01b-top': 'ttm01b_ADVtop_NREL02_June2014',
-    'ttm02b-bottom': 'ttm02b_ADVbottom_F01_June2014',
+    'ttm02b-bot': 'ttm02b_ADVbot_F01_June2014',
     'ttm02b-top': 'ttm02b_ADVtop_NREL03_June2014',
 }
 
@@ -24,11 +24,11 @@ def load(tag, coordsys='pax', bin=False):
 
     tag : string
        The instrument to load. This may be one of:
-          ttm01-bottom
+          ttm01-bot
           ttm01-top
-          ttm01b-bottom
+          ttm01b-bot
           ttm01b-top
-          ttm02b-bottom
+          ttm02b-bot
           ttm02b-top
 
     coordsys : string {'raw', 'earth', 'pax'}

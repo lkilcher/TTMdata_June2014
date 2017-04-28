@@ -9,11 +9,11 @@ read_raw = True
 
 # The file names:
 fnames = {
-    'ttm01-bottom': 'ttm01_ADVbottom_NREL01_June2014',
+    'ttm01-bot': 'ttm01_ADVbot_NREL01_June2014',
     'ttm01-top': 'ttm01_ADVtop_NREL02_June2014',
-    'ttm01b-bottom': 'ttm01b_ADVbottom_NREL01_June2014',
+    'ttm01b-bot': 'ttm01b_ADVbot_NREL01_June2014',
     'ttm01b-top': 'ttm01b_ADVtop_NREL02_June2014',
-    'ttm02b-bottom': 'ttm02b_ADVbottom_F01_June2014',
+    'ttm02b-bot': 'ttm02b_ADVbot_F01_June2014',
     'ttm02b-top': 'ttm02b_ADVtop_NREL03_June2014',
 }
 
@@ -45,22 +45,22 @@ latlons = {'ttm01b': (48.15256666, -122.68678333),
 
 # The body-head vectors:
 m_in = 0.0254
-b2h_vec = {'ttm01-bottom': np.array([-11.5, -0.25, -14.25]) * m_in,
+b2h_vec = {'ttm01-bot': np.array([-11.5, -0.25, -14.25]) * m_in,
            'ttm01-top': np.array([0.254, -0.064, -0.165])
            }
 b2h_vec['ttm01b-top'] = b2h_vec['ttm01-top']
-b2h_vec['ttm01b-bottom'] = b2h_vec['ttm01-bottom']
+b2h_vec['ttm01b-bot'] = b2h_vec['ttm01-bot']
 b2h_vec['ttm02b-top'] = np.array([10., -2.5, -5]) * m_in  # in->m
-b2h_vec['ttm02b-bottom'] = np.array([-13.25, 2.75, -12.75]) * m_in  # in->m
+b2h_vec['ttm02b-bot'] = np.array([-13.25, 2.75, -12.75]) * m_in  # in->m
 
 # The rotation matrices
 b2h_rotmat = {}
 # They are all the same for the TTMs
-(b2h_rotmat['ttm01b-bottom'],
+(b2h_rotmat['ttm01b-bot'],
  b2h_rotmat['ttm01-top'],
- b2h_rotmat['ttm01-bottom'],
+ b2h_rotmat['ttm01-bot'],
  b2h_rotmat['ttm02b-top'],
- b2h_rotmat['ttm02b-bottom'],
+ b2h_rotmat['ttm02b-bot'],
  b2h_rotmat['ttm01b-top'],) = 6 * [np.array([[0, 0, -1],
                                              [0, -1, 0],
                                              [-1, 0, 0]])]
