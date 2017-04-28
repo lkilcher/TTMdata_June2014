@@ -7,8 +7,6 @@ except:
 import os.path as path
 import shutil
 
-datdir = 'ADV/'
-
 URLS = [
     'https://mhkdr.openei.org/files/50/ttm01_ADVtop_NREL02_June2014.vec',
     'https://mhkdr.openei.org/files/50/ttm01_ADVbottom_NREL01_June2014.vec',
@@ -32,10 +30,10 @@ def retrieve(url, name, show_progress=True):
 
 def main():
     for url in URLS:
-        fname = url.rsplit('/', 1)[-1].replace('bottom', 'bot')
+        fname = 'ADV/' + url.rsplit('/', 1)[-1].replace('bottom', 'bot')
         if not path.isfile(fname):
             print("Downloading '{}'... ".format(fname), end='')
-            retrieve(url, datdir + fname)
+            retrieve(url, fname)
             print("Done.")
         else:
             print("File '{}' already exists.".format(fname))

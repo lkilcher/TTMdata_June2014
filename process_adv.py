@@ -4,8 +4,6 @@ from dolfyn.data.time import num2date
 import numpy as np
 from os.path import isfile
 
-datdir = 'ADV/'
-
 # The file names:
 fnames = [
     'ttm01_ADVbot_NREL01_June2014',
@@ -44,24 +42,25 @@ def run(fnames=fnames, read_raw=None, save_csv=False):
          Save the ``_average5min.csv`` files?
     """
     for fname in fnames:
+        fname = 'ADV/' + fname
         print("File: {}".format(fname))
         if read_raw is True or \
-           read_raw is None and not isfile(datdir + fname + '.h5'):
+           read_raw is None and not isfile(fname + '.h5'):
             dr = _read_raw(fname)
         else:
-            dr = avm.load(datdir + fname + '.h5')
+            dr = avm.load(fname + '.h5')
 
         drm = correct_motion(dr, fname)
 
         print('  Saving matlab file...')
         drm.add_data('datenum', drm.mpltime + 366, 'main')
-        drm.save_mat(datdir + fname + '_earth.mat', groups=['orient', 'main'])
+        drm.save_mat(fname + '_earth.mat', groups=['orient', 'main'])
         drm.pop_data('datenum')
 
         bdat = average(drm)
 
         print("  Saving binned data to hdf5...")
-        bdat.save(datdir + fname + '_earth_b5m.h5')
+        bdat.save(fname + '_earth_b5m.h5')
 
         if save_csv:
             _save_csv(bdat, fname)
@@ -71,7 +70,7 @@ def run(fnames=fnames, read_raw=None, save_csv=False):
         print("  Binning and saving...")
         bdat2 = average(drm)
 
-        bdat2.save(datdir + fname + '_pax_b5m.h5')
+        bdat2.save(fname + '_pax_b5m.h5')
 
         print("Done.")
 
@@ -107,7 +106,7 @@ def _read_raw(fname):
          dr.roll,
          dr.heading) = avm.rotate.orient2euler(dr.orientmat)
     print('  Saving...')
-    dr.save(datdir + fname + '.h5',
+    dr.save(fname + '.h5',
             units={
                 'vel': 'm/s', 'velrot': 'm/s',
                 'velacc': 'm/s', 'AngRt': 'rad/s',
@@ -135,7 +134,7 @@ def _save_csv(bdat, fname):
         ti[bdat.U_mag < 0.7] = np.NaN
 
         print("  Saving average csv file...")
-        np.savetxt(datdir + fname + '_Average5min.csv',
+        np.savetxt(fname + '_Average5min.csv',
                    np.vstack((num2date(bdat.mpltime), bdat.u,
                               bdat.v, bdat.w, ti)).T,
                    fmt=['%s'] + ['%0.3f'] * 4,
@@ -154,7 +153,7 @@ def correct_motion(dr, fname):
      drm.roll[:],
      drm.heading[:]) = avm.rotate.orient2euler(drm.orientmat)
     print('  Saving...')
-    drm.save(datdir + fname + '_earth.h5',
+    drm.save(fname + '_earth.h5',
              units={
                  'vel': 'm/s', 'velrot': 'm/s',
                  'velacc': 'm/s', 'AngRt': 'rad/s',
