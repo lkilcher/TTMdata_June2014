@@ -34,37 +34,24 @@ files are too large to be managed by `git`. Instead, the raw
 data is stored on
 the [MHK Data Repository](http://mhkdr.openei.org/), and this
 repository includes tools for downloading and processing the source
-data files stored there [[NREL 2015][ttmdata2015]].
+data files stored there [[NREL 2015][ttmdata2014]].
 
-This package requires [Python 2.7](https://docs.python.org/2/), and
+This repository requires [Python 2.7](https://docs.python.org/2/), and
 the [DOLfYN](https://lkilcher.github.io/dolfyn/) package. Assuming you
 have a functioning and up-to-date version of the former installed, the
 latter can be installed by doing:
 
     $ pip install dolfyn
 
-To download and process the data files:
+Once you have DOLfYN installed, you can download and process the data
+that this repository holds by simply doing:
 
-1. First, open a command prompt and navigate to the ADV directory, e.g.:
+    python setup_data.py
 
-        cd <this repo>/ADV/
-
-2. Then execute the 'pull data' script that is located there. This
-   will download the collection of source data files (`*.vec`). It
-   will take a while, depending on the speed of your internet
-   connection.
-
-        python pull_data.py
-
-3. Now execute the 'process data' script. This will create a
-   collection of processed data files for each source data file. These
-   are the latest versions of the processed data files found in [the
-   dataset][ttmdata2015]. 
-
-        python process_data.py
-
-More information on the source and processed data file formats can be
-found in the following section.
+This _will take some time_, and also about 8GB of hard disk
+space. It will first download the source data files
+(`TTM###_ADV*_June2014.vec`), then process those source files into
+several different versions of each source data file.
 
 Data File Info
 ------
@@ -72,12 +59,13 @@ Data File Info
 There are multiple source files within this dataset, which is data
 from an individual instrument. For each source data file, the
 `<base_name>` is the filename prefix of the source (`.vec`) file. From
-this source file, `the process_data.py` script generates a collection
+this source file, the `process_adv.py` script generates a collection
 of processed data files. Each of these data files is likely to be
 useful for distinct purposes.
 
 All hdf5 files (`.h5` ending) can be read directly by the DOLfYN library's
-'load' function, or using other hdf5 I/O tools
+'load' function (e.g., `dolfyn.adv.api.load(<base_name>.h5)`), or
+using other hdf5 I/O tools
 (e.g., [HDFView](http://support.hdfgroup.org/products/java/hdfview/)).
 
 ### `<base_name>.vec`
@@ -166,7 +154,7 @@ National Renewable Energy Lab, [NREL/TP-5000-62979][Kilcher++2016].
 
 National Renewable Energy Laboratory. (2015). Admiralty Inlet Advanced
 Turbulence Measurements: June 2014 [data set]. Retrieved from
-[https://mhkdr.openei.org/submissions/50][ttmdata2015]. 
+[https://mhkdr.openei.org/submissions/50][ttmdata2014]. 
 https://dx.doi.org/10.15473/1245825 .
 
-[ttmdata2015]: https://mhkdr.openei.org/submissions/50
+[ttmdata2014]: https://mhkdr.openei.org/submissions/50
