@@ -1,1 +1,2 @@
+- Check that the data is consistent with old versions (in progress)
 - Link to a specific DOLfYN release!
