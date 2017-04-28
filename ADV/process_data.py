@@ -99,7 +99,7 @@ if __name__ == '__main__':
             avm.clean.GN2002(dr.u)
             avm.clean.GN2002(dr.v)
             avm.clean.GN2002(dr.w)
-            for nm, d in dr.iteritems():
+            for nm, d in dr.iter():
                 if isinstance(d, np.ndarray) and \
                    d.dtype == np.float64 and nm not in ['mpltime']:
                     dr[nm] = d.astype(np.float32)
