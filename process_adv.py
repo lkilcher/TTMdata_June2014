@@ -4,15 +4,17 @@ from dolfyn.data.time import num2date
 import numpy as np
 from os.path import isfile
 
+datdir = 'ADV/'
+
 # The file names:
-fnames = {
-    'ttm01-bot': 'ttm01_ADVbot_NREL01_June2014',
-    'ttm01-top': 'ttm01_ADVtop_NREL02_June2014',
-    'ttm01b-bot': 'ttm01b_ADVbot_NREL01_June2014',
-    'ttm01b-top': 'ttm01b_ADVtop_NREL02_June2014',
-    'ttm02b-bot': 'ttm02b_ADVbot_F01_June2014',
-    'ttm02b-top': 'ttm02b_ADVtop_NREL03_June2014',
-}
+fnames = [
+    'ttm01_ADVbot_NREL01_June2014',
+    'ttm01_ADVtop_NREL02_June2014',
+    'ttm01b_ADVbot_NREL01_June2014',
+    'ttm01b_ADVtop_NREL02_June2014',
+    'ttm02b_ADVbot_F01_June2014',
+    'ttm02b_ADVtop_NREL03_June2014',
+]
 
 # Some variables for calculating dissipation rate (\epsilon)
 eps_freqs = np.array([[.3, 1],
@@ -26,14 +28,14 @@ pii = 2 * np.pi
 mc = avm.motion.CorrectMotion()
 
 
-def run(tags=fnames.keys(), read_raw=None, save_csv=False):
+def run(fnames=fnames, read_raw=None, save_csv=False):
     """
     Process the ADV data.
 
     Parameters
     ----------
-    tags : iterable
-         A list of data tags that you want to process (default: all of
+    fnames : iterable
+         A list of data file names that you want to process (default: all of
          them).
     read_raw : {True, None, False}
          Whether to read the raw ``.vec`` file, or load the ``.h5``
@@ -41,41 +43,40 @@ def run(tags=fnames.keys(), read_raw=None, save_csv=False):
     save_csv : bool
          Save the ``_average5min.csv`` files?
     """
-    for tag in tags:
-        fnm = fnames[tag]
-        print("File: {}".format(fnm))
+    for fname in fnames:
+        print("File: {}".format(fname))
         if read_raw is True or \
-           read_raw is None and not isfile(fnm + '.h5'):
-            dr = _read_raw(tag, fnm)
+           read_raw is None and not isfile(datdir + fname + '.h5'):
+            dr = _read_raw(fname)
         else:
-            dr = avm.load(fnm + '.h5')
+            dr = avm.load(datdir + fname + '.h5')
 
-        drm = correct_motion(dr, fnm)
+        drm = correct_motion(dr, fname)
 
         print('  Saving matlab file...')
         drm.add_data('datenum', drm.mpltime + 366, 'main')
-        drm.save_mat(fnm + '_earth.mat', groups=['orient', 'main'])
+        drm.save_mat(datdir + fname + '_earth.mat', groups=['orient', 'main'])
         drm.pop_data('datenum')
 
         bdat = average(drm)
 
         print("  Saving binned data to hdf5...")
-        bdat.save(fnm + '_earth_b5m.h5')
+        bdat.save(datdir + fname + '_earth_b5m.h5')
 
         if save_csv:
-            _save_csv(bdat, fnm)
+            _save_csv(bdat, fname)
 
         print("  Rotating to Principal frame...")
         avm.rotate.earth2principal(drm)
         print("  Binning and saving...")
         bdat2 = average(drm)
 
-        bdat2.save(fnm + '_pax_b5m.h5')
+        bdat2.save(datdir + fname + '_pax_b5m.h5')
 
         print("Done.")
 
 
-def _read_raw(fname, tag):
+def _read_raw(fname):
     # Read the raw vector file
     dr = avm.read_nortek(fname + '.vec')
 
@@ -106,7 +107,7 @@ def _read_raw(fname, tag):
          dr.roll,
          dr.heading) = avm.rotate.orient2euler(dr.orientmat)
     print('  Saving...')
-    dr.save(fname + '.h5',
+    dr.save(datdir + fname + '.h5',
             units={
                 'vel': 'm/s', 'velrot': 'm/s',
                 'velacc': 'm/s', 'AngRt': 'rad/s',
@@ -128,13 +129,13 @@ def _read_raw(fname, tag):
     return dr
 
 
-def _save_csv(bdat, fnm):
+def _save_csv(bdat, fname):
 
         ti = bdat.sigma_Uh / bdat.U_mag
         ti[bdat.U_mag < 0.7] = np.NaN
 
         print("  Saving average csv file...")
-        np.savetxt(fnm + '_Average5min.csv',
+        np.savetxt(datdir + fname + '_Average5min.csv',
                    np.vstack((num2date(bdat.mpltime), bdat.u,
                               bdat.v, bdat.w, ti)).T,
                    fmt=['%s'] + ['%0.3f'] * 4,
@@ -144,7 +145,7 @@ def _save_csv(bdat, fnm):
                    delimiter=', ')
 
 
-def correct_motion(dr, fnm):
+def correct_motion(dr, fname):
 
     print('  Motion correcting...')
     drm = dr.copy()
@@ -153,7 +154,7 @@ def correct_motion(dr, fnm):
      drm.roll[:],
      drm.heading[:]) = avm.rotate.orient2euler(drm.orientmat)
     print('  Saving...')
-    drm.save(fnm + '_earth.h5',
+    drm.save(datdir + fname + '_earth.h5',
              units={
                  'vel': 'm/s', 'velrot': 'm/s',
                  'velacc': 'm/s', 'AngRt': 'rad/s',
