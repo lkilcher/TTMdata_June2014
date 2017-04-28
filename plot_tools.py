@@ -46,7 +46,7 @@ def vel_time(data, fignum=None,
     axout = np.empty((3, ), dtype='O')
     for irow in range(3):
         ax = plt.subplot(gs[irow, 0], sharex=ax, sharey=None)
-        ax.plot(data.mpltime, data._u[irow])
+        ax.plot(data.mpltime, data.vel[irow])
         if irow < 2:
             plt.setp(ax.get_xticklabels(), visible=False)
         axout[irow] = ax
@@ -68,7 +68,7 @@ def vel_time_comb(data, fignum=None,
     ax.axhline(0, linestyle=':', color='k')
     ax.set_ylabel('m/s')
     for irow in range(3):
-        ax.plot(data.mpltime, data._u[irow], label='$%s$' % (vels[irow]))
+        ax.plot(data.mpltime, data.vel[irow], label='$%s$' % (vels[irow]))
     ax.legend(loc='upper left', bbox_to_anchor=[1.03, 1])
     return fig, ax
 
@@ -78,7 +78,7 @@ def multi_spec_plot(data,
                     uranges=np.linspace(0, 2, 5),
                     u_abs=True,
                     spec_comps=[0, 1, 2],
-                    vars=['Spec_uraw', 'Spec_umot', 'Spec', ],
+                    vars=['Spec_velraw', 'Spec_velmot', 'Spec', ],
                     axsize=2,
                     frame=[0.8, 1.3, 0.7, .5],
                     gap=[0.1, 0.1],
@@ -113,10 +113,10 @@ def multi_spec_plot(data,
         for irow in range(nrow):
             ax = plt.subplot(gs[irow, icol], sharex=ax, sharey=ax)
             for v in vars:
-                if v.endswith('_uraw'):
+                if v.endswith('_velraw'):
                     label = '$S(u_\mathrm{raw})$'
                     color = 'g'
-                elif v.endswith('_umot'):
+                elif v.endswith('_velmot'):
                     label = '$S(u_\mathrm{mot})$'
                     color = 'r'
                 elif v == 'Spec':
