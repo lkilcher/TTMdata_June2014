@@ -43,18 +43,23 @@ FILEINFO = [
     Finf('ADV/ttm01_ADVtop_NREL02_June2014.vec',
          mhkdr + '50/ttm01_ADVtop_NREL02_June2014.vec',
          247559612, 'df5d15e92c6c2d5b'),
+
     Finf('ADV/ttm01_ADVbot_NREL01_June2014.vec',
          mhkdr + '50/ttm01_ADVbottom_NREL01_June2014.vec',
          247977218, 'c1fd5448b155ea7f'),
+
     Finf('ADV/ttm01b_ADVtop_NREL02_June2014.vec',
          mhkdr + '50/ttm01b_ADVtop_NREL02_June2014.vec',
          321388010, 'c639b458ae3055a2'),
+
     Finf('ADV/ttm01b_ADVbot_NREL01_June2014.vec',
          mhkdr + '50/ttm01b_ADVbottom_NREL01_June2014.vec',
          327756366, '3117987dd5840e58'),
+
     Finf('ADV/ttm02b_ADVtop_NREL03_June2014.vec',
          mhkdr + '50/ttm02b_ADVtop_NREL03_June2014.vec',
          318368731, '5801641c827d5991'),
+
     Finf('ADV/ttm02b_ADVbot_F01_June2014.vec',
          mhkdr + '50/ttm02b_ADVbottom_F01_June2014.vec',
          316418997, 'b77e4040ab77b4e3'),
@@ -77,7 +82,7 @@ def checkfile(finf, ):
 
 def retrieve(finf):
     response = urlopen(finf.url)
-    with open(thisdir + '/' + finf.name, 'wb') as f:
+    with open(thisdir + '/' + finf.fname, 'wb') as f:
         shutil.copyfileobj(response, f)
 
 
@@ -87,7 +92,7 @@ def main(test_only=False):
             if test_only:
                 continue
             print("Downloading '{}'... ".format(finf.fname), end='')
-            retrieve(finf.url, finf.fname)
+            retrieve(finf)
             if not finf.checkhash():
                 raise Exception('Secure hash check failed!')
             print("Done.")
