@@ -1,3 +1,7 @@
+#!/usr/bin/python
+"""
+This script is for processing the ADV data files in the ADV/ directory.
+"""
 import dolfyn.adv.api as avm
 from dolfyn.tools import within
 from dolfyn.data.time import num2date
@@ -5,13 +9,13 @@ import numpy as np
 from os.path import isfile
 
 # The file names:
-fnames = [
-    'ttm01_ADVbot_NREL01_June2014',
-    'ttm01_ADVtop_NREL02_June2014',
-    'ttm01b_ADVbot_NREL01_June2014',
-    'ttm01b_ADVtop_NREL02_June2014',
-    'ttm02b_ADVbot_F01_June2014',
-    'ttm02b_ADVtop_NREL03_June2014',
+FNAMES = [
+    'ADV/ttm01_ADVbot_NREL01_June2014',
+    'ADV/ttm01_ADVtop_NREL02_June2014',
+    'ADV/ttm01b_ADVbot_NREL01_June2014',
+    'ADV/ttm01b_ADVtop_NREL02_June2014',
+    'ADV/ttm02b_ADVbot_F01_June2014',
+    'ADV/ttm02b_ADVtop_NREL03_June2014',
 ]
 
 # Some variables for calculating dissipation rate (\epsilon)
@@ -26,7 +30,7 @@ pii = 2 * np.pi
 mc = avm.motion.CorrectMotion()
 
 
-def run(fnames=fnames, read_raw=None, save_csv=False):
+def run(fnames=FNAMES, readvec=None, savecsv=False):
     """
     Process the ADV data.
 
@@ -35,17 +39,17 @@ def run(fnames=fnames, read_raw=None, save_csv=False):
     fnames : iterable
          A list of data file names that you want to process (default: all of
          them).
-    read_raw : {True, None, False}
+    readvec : {True, None, False}
          Whether to read the raw ``.vec`` file, or load the ``.h5``
          file. Default: read .h5, if it is available.
-    save_csv : bool
+    savecsv : bool
          Save the ``_average5min.csv`` files?
     """
     for fname in fnames:
-        fname = 'ADV/' + fname
+        fname = fname
         print("File: {}".format(fname))
-        if read_raw is True or \
-           read_raw is None and not isfile(fname + '.h5'):
+        if readvec is True or \
+           readvec is None and not isfile(fname + '.h5'):
             dr = _read_raw(fname)
         else:
             dr = avm.load(fname + '.h5')
@@ -62,7 +66,7 @@ def run(fnames=fnames, read_raw=None, save_csv=False):
         print("  Saving binned data to hdf5...")
         bdat.save(fname + '_earth_b5m.h5')
 
-        if save_csv:
+        if savecsv:
             _save_csv(bdat, fname)
 
         print("  Rotating to Principal frame...")
@@ -77,6 +81,10 @@ def run(fnames=fnames, read_raw=None, save_csv=False):
 
 def _read_raw(fname):
     # Read the raw vector file
+    if not isfile(fname + '.vec'):
+        print("File not found.")
+        if fname in FNAMES:
+            print("... Try running the pull_adv.py script?")
     dr = avm.read_nortek(fname + '.vec')
 
     dr.noise[0] = 0
@@ -248,4 +256,29 @@ def average(dat):
 
 if __name__ == '__main__':
 
-    run()
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Process ADV data files.")
+    parser.add_argument(
+        'fnames', nargs='*',
+        help='The base file names (<basename>, i.e., without '
+        'file extensions) of the files to process. If no files '
+        'are specified, all files specified in the scrip will be processed.')
+    parser.add_argument(
+        '--readvec',
+        help="Force reading of the binary vector file. By default, "
+        "the script will only read `<basename>.vec` files if there "
+        "is no <basename>.h5",
+        action='store_true')
+    parser.add_argument(
+        '--savecsv',
+        help="Save simplified CSV files during processing?",
+        action='store_true')
+    args = parser.parse_args()
+    if not args.readvec:
+        args.readvec = None
+    if len(args.fnames) == 0:
+        args.fnames = FNAMES
+
+    run(args.fnames, readvec=args.readvec, savecsv=args.savecsv)
