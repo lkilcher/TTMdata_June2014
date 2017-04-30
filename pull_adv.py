@@ -89,11 +89,11 @@ def main(test_only=False):
             print("Downloading '{}'... ".format(finf.fname), end='')
             retrieve(finf.url, finf.fname)
             if not finf.checkhash():
-                print("WARNING: the file just downloaded has a bad hash!")
+                raise Exception('Secure hash check failed!')
             print("Done.")
         else:
             print("File '{}' already exists.".format(finf.fname))
 
 
 if __name__ == '__main__':
-    main(test_only=True)
+    main()
