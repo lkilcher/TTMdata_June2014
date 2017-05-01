@@ -7,24 +7,58 @@ measurements were made using Inertial Motion Unit (IMU) equipped
 Acoustic Doppler Velocimeters (ADVs) mounted on Tidal Turbulence
 Mooring's (TTMs).
 
-A TTM is a compliant mooring designed to position an ADV above the
+License
+----------
+ <a rel="license"
+ href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative
+ Commons License" style="border-width:0"
+ src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />
+This work is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by/4.0/">Creative Commons
+Attribution 4.0 International License</a>. A significant amount of
+effort has gone into documenting the data and making it publicly
+accessible alongside the software tools that we use to work with
+it. We believe this process dramatically improves data quality and
+usefulness, as well as adding to the well of public knowledge. If you
+find this data useful, we kindly request that you let us know. If this
+data is a major part of a publication we appreciate the opportunity to
+be considered for co-authorship.
+
+Data Summary
+---------
+
+The TTM is a compliant mooring designed to position an ADV above the
 seafloor to make mid-depth turbulence measurements. The inertial
 measurements from the IMU are used in post-processing to remove
 mooring motion.
 
-In this dataset each TTM was deployed with two ADVs. The 'top' ADV
+In this dataset each TTM was deployed with two ADV-IMUs. The 'top' ADV
 head was positioned 0.5m above the 'bottom' ADV head. The TTMs were
 placed in 58 meters [m] of water and the ADVs were 10 m above the
-seafloor. The position of the TTMs were:
+seafloor. For additional details on the data itself, including diagrams and
+photos of the TTM, see [Kilcher et.al. (2016)][Kilcher++2016]. 
 
-- ttm01  : (48.1525, -122.6867)
-- ttm01b : (48.15256666, -122.68678333)
-- ttm02b : (48.152783333, -122.686316666)
+[Here is a map](https://www.google.com/maps/d/viewer?mid=1Fhb5Y6CWqe_5tIVMh8KpGcRFqhs&ll=48.14731553247063%2C-122.72049067287446&z=11) of the measurement sites.
 
-Deployments TTM01b and TTM02b occurred simultaneously.
 
-For additional details on the data itself, including diagrams and
-photos of the TTM, see [Kilcher et.al. (2016)][Kilcher++2016].
+### TTM01
+
+Position: 48.1525 N, 122.6867 W
+
+Duration: 2014-06-16, 21:12 to 2014-06-17, 14:42 (local time)
+
+### TTM01b
+
+Position: 48.1526 N, 122.6868 W
+
+Duration : 2014-06-18, 08:00 to 2014-06-19, 05:12 (local time)**
+
+### TTM02b
+Position: (48.1527, -122.6863)
+
+Duration 2014-06-18, 08:15 to 2014-06-19, 05:00 (local time)**
+
+**: Measurements TTM01b and TTM02b overlapped
 
 'Installing' the data
 ----------
