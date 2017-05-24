@@ -20,9 +20,10 @@ effort has gone into documenting the data and making it publicly
 accessible alongside the software tools that we use to work with
 it. We believe this process dramatically improves data quality and
 usefulness, as well as adding to the well of public knowledge. If you
-find this data useful, we kindly request that you let us know. If this
-data is a major part of a publication we appreciate the opportunity to
-be considered for co-authorship.
+find this data useful, we kindly request that you let us know by
+emailing one of the data's authors. If this data is a major part of a
+publication we appreciate the opportunity to be considered for
+co-authorship.
 
 Data Summary
 ---------
@@ -38,7 +39,8 @@ placed in 58 meters [m] of water and the ADVs were 10 m above the
 seafloor. For additional details on the data itself, including diagrams and
 photos of the TTM, see [Kilcher et.al. (2016)][Kilcher++2016]. 
 
-[Here is a map](https://www.google.com/maps/d/viewer?mid=1Fhb5Y6CWqe_5tIVMh8KpGcRFqhs&ll=48.14731553247063%2C-122.72049067287446&z=11) of the measurement sites.
+[Here is a map](https://www.google.com/maps/d/viewer?mid=1Fhb5Y6CWqe_5tIVMh8KpGcRFqhs&ll=48.14731553247063%2C-122.72049067287446&z=11)
+of the measurement sites.
 
 
 ### TTM01
