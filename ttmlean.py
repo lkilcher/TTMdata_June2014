@@ -3,6 +3,7 @@ import scipy.signal as sig
 import matplotlib.pyplot as plt
 import numpy as np
 import dolfyn.adv.api as avm
+from base import datdir
 plt.ion()
 
 
@@ -58,14 +59,18 @@ def correct_motion(dat, filt_freq):
 def bin(datnow):
 
     datbd = binner(datnow)
-    datbd.Spec_velraw = binner.psd(datnow.velraw)
-    datbd.Spec_velacc = binner.psd(datnow.velacc)
-    datbd.Spec_velrot = binner.psd(datnow.velrot)
-    datbd.Spec_velmoor = binner.psd(datnow.velmoor)
-    datbd.Spec_velmoor_nofilt = binner.psd(datnow.velmoor_nofilt)
-    datbd.Spec_velmot = binner.psd(datnow.velacc +
-                                   datnow.velrot +
-                                   datnow.velmoor)
+    datbd.add_data('Spec_velraw', binner.psd(datnow.velraw), 'orient')
+    datbd.add_data('Spec_velacc', binner.psd(datnow.velacc), 'orient')
+    datbd.add_data('Spec_velrot', binner.psd(datnow.velrot), 'orient')
+    datbd.add_data('Spec_velmoor', binner.psd(datnow.velmoor), 'orient')
+    datbd.add_data('Spec_velmoor_nofilt',
+                   binner.psd(datnow.velmoor_nofilt),
+                   'orient')
+    datbd.add_data('Spec_velmot',
+                   binner.psd(datnow.velacc +
+                              datnow.velrot +
+                              datnow.velmoor),
+                   'orient')
     return datbd
 
 
@@ -142,28 +147,41 @@ def plot_bt_filt_spec(fignum, datbd):
     return fig, AXS
 
 
-if __name__ == '__main__':
+filt_freqs = {'5s': 0.2,
+              '10s': 0.1,
+              '30s': 0.03}
 
-    filt_freqs = {'5s': 0.2,
-                  '10s': 0.1,
-                  '30s': 0.03}
 
-    fname = 'ADV/ttm02b_ADVtop_NREL03_June2014'
-    dat = avm.load(fname + '.h5')
+def process(fname='ADV/ttm02b_ADVtop_NREL03_June2014'):
 
-    for idx, (filt_tag, filt_freq) in enumerate(
-            filt_freqs.iteritems()):
+    dat = avm.load(datdir + fname + '.h5')
+
+    for filt_tag, filt_freq in filt_freqs.iteritems():
 
         datmc = correct_motion(dat, filt_freq)
         datpx = datmc.copy()
         avm.rotate.earth2principal(datpx)
         datbd = bin(datpx)
-        datbd.save(fname + '_velmoor-f{}_b5m.h5'.format(filt_tag))
+        datbd.save(datdir + fname + '_velmoor-f{}_b5m.h5'.format(filt_tag))
 
+
+def make_figs(fname='ADV/ttm02b_ADVtop_NREL03_June2014'):
+
+    dat = correct_motion(avm.load(datdir + fname + '.h5'), 0.1)
+    fig, axs = plot_raw_pos(dat)
+    fig.savefig(datdir + '../fig/MooringPosition01.png')
+
+    for idx, (filt_tag, filt_freq) in enumerate(
+            filt_freqs.iteritems()):
+        datbd = avm.load(datdir + fname +
+                         '_velmoor-f{}_b5m.h5'.format(filt_tag))
         fig, AXS = plot_bt_filt_spec(300 + idx, datbd)
         fig.suptitle('{} filter'.format(filt_tag))
-        fig.savefig('fig/TTM_velmoor_spec_filt{}.pdf'
+        fig.savefig(datdir + '../fig/TTM_velmoor_spec_filt{}.pdf'
                     .format(filt_tag))
 
-    fig, axs = plot_raw_pos(datpx)
-    fig.savefig('fig/MooringPosition01.png')
+
+if __name__ == '__main__':
+
+    process()
+    make_figs()
