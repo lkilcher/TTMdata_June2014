@@ -9,14 +9,14 @@ import numpy as np
 from os.path import isfile
 
 # The file names:
-FNAMES = [
-    'ADV/ttm01_ADVbot_NREL01_June2014',
-    'ADV/ttm01_ADVtop_NREL02_June2014',
-    'ADV/ttm01b_ADVbot_NREL01_June2014',
-    'ADV/ttm01b_ADVtop_NREL02_June2014',
-    'ADV/ttm02b_ADVbot_F01_June2014',
-    'ADV/ttm02b_ADVtop_NREL03_June2014',
-]
+FNAMES = {
+    'ttm01-top': 'ADV/ttm01_ADVtop_NREL02_June2014',
+    'ttm01-bot': 'ADV/ttm01_ADVbot_NREL01_June2014',
+    'ttm01b-top': 'ADV/ttm01b_ADVtop_NREL02_June2014',
+    'ttm01b-bot': 'ADV/ttm01b_ADVbot_NREL01_June2014',
+    'ttm02b-top': 'ADV/ttm02b_ADVtop_NREL03_June2014',
+    'ttm02b-bot': 'ADV/ttm02b_ADVbot_F01_June2014',
+}
 
 # Some variables for calculating dissipation rate (\epsilon)
 eps_freqs = np.array([[.3, 1],
@@ -30,7 +30,7 @@ pii = 2 * np.pi
 mc = avm.motion.CorrectMotion()
 
 
-def run(fnames=FNAMES, readvec=None, savecsv=False):
+def run(fnames=FNAMES.values(), readvec=None, savecsv=False):
     """
     Process the ADV data.
 
@@ -83,7 +83,7 @@ def _read_raw(fname):
     # Read the raw vector file
     if not isfile(fname + '.vec'):
         print("File not found.")
-        if fname in FNAMES:
+        if fname in FNAMES.values():
             print("... Try running the pull_adv.py script?")
     dr = avm.read_nortek(fname + '.vec')
 
@@ -279,6 +279,6 @@ if __name__ == '__main__':
     if not args.readvec:
         args.readvec = None
     if len(args.fnames) == 0:
-        args.fnames = FNAMES
+        args.fnames = FNAMES.values()
 
     run(args.fnames, readvec=args.readvec, savecsv=args.savecsv)
