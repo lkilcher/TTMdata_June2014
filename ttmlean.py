@@ -3,7 +3,7 @@ import scipy.signal as sig
 import matplotlib.pyplot as plt
 import numpy as np
 import dolfyn.adv.api as avm
-from base import datdir
+from main import FILEINFO, pkg_root
 
 
 def within(dat, minval, maxval):
@@ -157,9 +157,9 @@ filt_freqs = {'5s': 0.2,
               '30s': 0.03}
 
 
-def process(fname='ttm02b_ADVtop_NREL03_June2014'):
+def process(finf=FILEINFO['ttm02b-top']):
 
-    dat = avm.load(datdir + fname + '.h5')
+    dat = avm.load(finf.abs_fname + '.h5')
 
     for filt_tag, filt_freq in filt_freqs.iteritems():
 
@@ -167,26 +167,26 @@ def process(fname='ttm02b_ADVtop_NREL03_June2014'):
         datpx = datmc.copy()
         avm.rotate.earth2principal(datpx)
         datbd = bin(datpx)
-        datbd.save(datdir + fname + '_velmoor-f{}_b5m.h5'.format(filt_tag))
+        datbd.save(finf.abs_fname + '_velmoor-f{}_b5m.h5'.format(filt_tag))
 
 
-def make_pos_time_fig(fname='ttm02b_ADVtop_NREL03_June2014'):
+def make_pos_time_fig(finf=FILEINFO['ttm02b-top']):
 
-    dat = correct_motion(avm.load(datdir + fname + '.h5'), 0.1)
+    dat = correct_motion(avm.load(finf.abs_fname + '.h5'), 0.1)
     fig, axs = plot_raw_pos(dat)
     axs[0].set_ylim([-6, 6])
-    fig.savefig(datdir + '../fig/' + fname + '_PosMooring.pdf')
+    fig.savefig(pkg_root + 'fig/' + finf.fname + '_PosMooring.pdf')
 
 
-def make_vel_spec_figs(fname='ttm02b_ADVtop_NREL03_June2014'):
+def make_vel_spec_figs(finf=FILEINFO['ttm02b-top']):
 
     for idx, (filt_tag, filt_freq) in enumerate(
             filt_freqs.iteritems()):
-        datbd = avm.load(datdir + fname +
+        datbd = avm.load(finf.abs_fname +
                          '_velmoor-f{}_b5m.h5'.format(filt_tag))
         fig, AXS = plot_bt_filt_spec(300 + idx, datbd)
         fig.suptitle('{} filter'.format(filt_tag))
-        fig.savefig(datdir + '../fig/' + fname + '_velmoor_spec_filt{}.pdf'
+        fig.savefig(pkg_root + 'fig/' + finf.fname + '_velmoor_spec_filt{}.pdf'
                     .format(filt_tag))
 
 

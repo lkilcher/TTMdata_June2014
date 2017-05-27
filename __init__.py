@@ -86,4 +86,4 @@ Data can be loaded from this package as::
   dat = j14.load('TTM01-top', coordsys='earth')
 
 """
-from base import *
+from main import *

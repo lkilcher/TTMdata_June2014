@@ -1,10 +1,10 @@
-from pull_adv import main as pull
+from main import pull, FILEINFO
 from process_adv import run as process
 import ttmlean
 
 if __name__ == '__main__':
-    pull()
+    pull(FILEINFO.values())
 
-    process()
+    process(FILEINFO.values())
 
-    ttmlean.process()
+    ttmlean.process(FILEINFO['ttm02b-top'])
