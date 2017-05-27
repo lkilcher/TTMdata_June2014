@@ -4,7 +4,6 @@ import plot_tools as pmod
 import matplotlib.pyplot as plt
 import numpy as np
 reload(pmod)
-plt.ion()
 import matplotlib.dates as dt
 from calendar import month_name as month
 import base as j14
