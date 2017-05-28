@@ -102,7 +102,7 @@ def _read_raw(finf):
         if isinstance(d, np.ndarray) and \
            d.dtype == np.float64 and nm not in ['mpltime']:
             dr[nm] = d.astype(np.float32)
-    if dr.has_imu():
+    if dr.has_imu:
         (dr.pitch,
          dr.roll,
          dr.heading) = avm.rotate.orient2euler(dr.orientmat)
