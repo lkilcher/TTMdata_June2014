@@ -37,7 +37,10 @@ In this dataset each TTM was deployed with two ADV-IMUs. The 'top' ADV
 head was positioned 0.5m above the 'bottom' ADV head. The TTMs were
 placed in 58 meters [m] of water and the ADVs were 10 m above the
 seafloor. For additional details on the data itself, including diagrams and
-photos of the TTM, see [Kilcher et.al. (2016)][Kilcher++2016]. 
+photos of the TTM, see
+[Kilcher et.al. (2016)][Kilcher++2016],
+[Harding et.al. (2017)][Harding++2017],
+and [Kilcher et.al. (2017)][Kilcher++2017].
 
 [Here is a map](https://www.google.com/maps/d/viewer?mid=1Fhb5Y6CWqe_5tIVMh8KpGcRFqhs&ll=48.14731553247063%2C-122.72049067287446&z=11)
 of the measurement sites.
@@ -73,9 +76,9 @@ repository includes tools for downloading and processing the source
 data files stored there [[NREL 2015][ttmdata2014]].
 
 This repository requires [Python 2.7](https://docs.python.org/2/), and
-the [DOLfYN](https://lkilcher.github.io/dolfyn/) package. Assuming you
-have a functioning and up-to-date version of the former installed, the
-latter can be installed by doing:
+the [DOLfYN](https://lkilcher.github.io/dolfyn/) package (>= version
+0.8). Assuming you have a functioning and up-to-date version of the
+former installed, the latter can be installed by doing:
 
     $ pip install dolfyn
 
@@ -188,9 +191,26 @@ National Renewable Energy Lab, [NREL/TP-5000-62979][Kilcher++2016].
 
 [Kilcher++2016]: http://www.nrel.gov/docs/fy16osti/62979.pdf
 
-National Renewable Energy Laboratory. (2015). Admiralty Inlet Advanced
-Turbulence Measurements: June 2014 [data set]. Retrieved from
-[https://mhkdr.openei.org/submissions/50][ttmdata2014]. 
-https://dx.doi.org/10.15473/1245825 .
+Harding, S; Kilcher, L.; and Thomson, J. (2017)
+"Turbulence Measurements from Compliant Moorings - Part I: Motion Characterization"
+Journal of Atmospheric and Oceanic Technology,
+doi:
+[10.1175/JTECH-D-16-0189.1](http://dx.doi.org/10.1175/JTECH-D-16-0189.1).
 
-[ttmdata2014]: https://mhkdr.openei.org/submissions/50
+[Harding++2017]: http://dx.doi.org/10.1175/JTECH-D-16-0189.1
+
+Kilcher, L.; Thomson, J.; Harding, S; and Nylund, S. (2017)
+"Turbulence Measurements from Compliant Moorings - Part II: Motion Correction"
+Journal of Atmospheric and Oceanic Technology,
+doi:
+[10.1175/JTECH-D-16-0213.1](http://dx.doi.org/10.1175/JTECH-D-16-0213.1).
+
+[Kilcher++2017]: http://dx.doi.org/10.1175/JTECH-D-16-0213.1
+
+National Renewable Energy Laboratory. (2015). Admiralty Inlet
+Hub-Height Turbulence Measurements from June 2012 [data
+set]. Retrieved
+from [https://mhkdr.openei.org/submissions/49][ttmdata2012].
+doi: [10.15473/1245824](http://dx.doi.org/10.15473/1245824).
+
+[ttmdata2012]: https://mhkdr.openei.org/submissions/49
